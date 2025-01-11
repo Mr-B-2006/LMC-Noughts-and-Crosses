@@ -9,29 +9,35 @@ GAMELOOP LDA P
 P1	LDA NC
 	STA X
 	LDA PLAYER1
-P2END	OTC
-	LDA COLON
+P2END	OTC //OUTPUTS PLAYER NUMBER
+BRDLOOP	LDA COLON
+	SUB BRDLCNT
 	OTC
-	LDA SPACE
-	OTC
-	//now implement board display code
-	HLT
-        BRP GAMELOOP
-        HLT
-SPACE DAT 32 //ASCII " " (SPACE)
+	LDA BRDLOOP
+	ADD ONE
+	STA BRDLOOP
+	LDA BOARDPOS
+	SUB ONE
+	STA BOARDPOS
+	BRP BRDLOOP
+
 COLON DAT 58 //ASCII ":"
+SPACE DAT 32 //ASCII " " (SPACE)
 X0Y0    DAT 46 //BOARD BEGIN
 X1Y0    DAT 46
 X2Y0    DAT 46
+Y1	DAT 32
 X0Y1    DAT 46
 X1Y1    DAT 46
 X2Y1    DAT 46
+Y2	DAT 32
 X0Y2    DAT 46
 X1Y2    DAT 46
-X2Y2    DAT 46 //BOARD END
+X2Y2    DAT 46
+BRDEND	DAT 32 //BOARD END
 BOARDX  DAT 4
-BOARDOUT DAT 13
-BOARDPOS DAT X0Y0
+NEEDLINE DAT -3
+BOARDPOS DAT 13
 P       DAT 80 //ASCII "P"
 PLAYER1 DAT 49 //ASCII "1"
 PLAYER2 DAT 50 //ASCII "2"
@@ -40,3 +46,5 @@ NC	DAT 0 //controls whether we output "X" (88 (player 1)) or "O" (79 (player 2))
 X	DAT 88
 O	DAT 79
 ONE 	DAT 1
+BRDLCNT DAT 0 //BOARD LOOP COUNT
+CARET	DAT 20 //LMC doesnt have any way that we can make pointer variables without using up extra memory (which we have very little of), so this will have to do :/ (value needs to change on each assembly)
